@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import threading
-from youtube_comment import *  # Make sure this is correctly imported
+from youtube_comment import * 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 
@@ -25,7 +25,6 @@ class FirstPage(tk.Frame):
         self.ip_entry = tk.Entry(self, width=50, font=("Arial", 20))
         self.ip_entry.grid(column=0, row=1, pady=10, padx=20, sticky="n")
 
-        # Create an Enter button
         enter_button = tk.Button(self, text="Enter", font=("Arial", 15), command=self.go_to_second_page)
         enter_button.grid(column=0, row=2, pady=20, padx=20)
 
@@ -36,8 +35,6 @@ class FirstPage(tk.Frame):
 
     def go_to_second_page(self):
         self.loading_label.grid()  # Show loading label
-
-        # Start a thread to handle the data processing
         threading.Thread(target=self.process_data, daemon=True).start()
     
     def process_data(self):
@@ -65,16 +62,12 @@ class ThirdPage(tk.Frame):
         self.grid_rowconfigure(1, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
-        # Create a label to display the invalid link message
         label = tk.Label(self, text="The entered link is Invalid!", font=("Arial", 20), fg="red")
         label.grid(column=0, row=0, pady=20, padx=20, sticky="n")
 
         # Create a button to navigate back to the first page
         enter_button = tk.Button(self, text="First Page", font=("Arial", 15), command=lambda: controller.show_frame(FirstPage))
         enter_button.grid(column=0, row=1, pady=20, padx=20)
-
-        # Optional: You might want to center the button horizontally
-        # self.grid_columnconfigure(0, weight=1)
 
 
 class SecondPage(tk.Frame):
@@ -83,7 +76,6 @@ class SecondPage(tk.Frame):
         
         self.controller = controller
         
-        # Configure grid layout
         self.grid_rowconfigure(0, weight=1)  # Label row
         self.grid_rowconfigure(1, weight=10)  # Graphs row
         self.grid_rowconfigure(2, weight=1)  # Button row
@@ -93,12 +85,10 @@ class SecondPage(tk.Frame):
         self.label = tk.Label(self, text="", font=("Arial", 14))
         self.label.grid(column=0, row=0, pady=10, sticky="n")
 
-        # Create a figure and a grid layout for plotting
         self.figure = plt.Figure(figsize=(12, 6), dpi=100)
         self.ax_bar = self.figure.add_subplot(121)  # Bar graph subplot
         self.ax_pie = self.figure.add_subplot(122)  # Pie chart subplot
         
-        # Create canvas for matplotlib
         self.canvas = FigureCanvasTkAgg(self.figure, self)
         self.canvas.get_tk_widget().grid(row=1, column=0, pady=10, padx=10, sticky="nsew")
         
@@ -142,7 +132,7 @@ class SecondPage(tk.Frame):
         self.ax_pie.clear()
         self.ax_pie.pie(sizes, explode=explode, labels=labels, colors=colors,
                         autopct='%1.1f%%', shadow=True, startangle=140)
-        self.ax_pie.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+        self.ax_pie.axis('equal') 
 
 
 class Application(tk.Tk):
@@ -172,7 +162,7 @@ class Application(tk.Tk):
         frame = self.frames[page]
         frame.tkraise()
         if isinstance(frame, SecondPage):
-            frame.update_label()  # Update the label when showing the SecondPage
+            frame.update_label()
 
     def set_dict(self, dict):
         self.dict = dict
