@@ -6,13 +6,9 @@ model = AutoModelForSequenceClassification.from_pretrained(model_path)
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 
 def predict(input_text):
-    # Tokenize the input
     inputs = tokenizer(input_text, return_tensors="pt")
-
-    # Perform inference
     with torch.no_grad():
         outputs = model(**inputs)
-
     # Process the outputs
     logits = outputs.logits
     predictions = torch.argmax(logits, dim=-1)
@@ -21,8 +17,6 @@ def predict(input_text):
 
 
 def predict_classes(input_dict):
-    
-    # Prepare a dictionary to hold predictions
     output_dict = {
         "Positive" : 0,
         "Neutral" : 0,
@@ -33,8 +27,6 @@ def predict_classes(input_dict):
     for text in input_dict:
         
         predicted_class = predict(text)
-
-        # Add the prediction to the output dictionary
         if(predicted_class==0):
             output_dict["Neutral"] = output_dict["Neutral"] + 1
         elif(predicted_class==1):
