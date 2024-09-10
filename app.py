@@ -11,17 +11,14 @@ class FirstPage(tk.Frame):
         
         self.controller = controller
 
-        # Centering the contents of the frame
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
-        # Create a label for instructions
         label = tk.Label(self, text="Enter the site link", font=("Arial", 25))
         label.grid(column=0, row=0, pady=20, padx=20, sticky="n")
 
-        # Create an entry field for user input
         self.ip_entry = tk.Entry(self, width=50, font=("Arial", 20))
         self.ip_entry.grid(column=0, row=1, pady=10, padx=20, sticky="n")
 
@@ -34,16 +31,16 @@ class FirstPage(tk.Frame):
         self.loading_label.grid_forget()  # Hide initially
 
     def go_to_second_page(self):
-        self.loading_label.grid()  # Show loading label
+        self.loading_label.grid()
         threading.Thread(target=self.process_data, daemon=True).start()
     
     def process_data(self):
         ip_address = self.ip_entry.get()
         val = main(ip_address)
-        self.after(0, self.handle_result, val)  # Update GUI after processing is done
+        self.after(0, self.handle_result, val)  
 
     def handle_result(self, val):
-        self.loading_label.grid_forget()  # Hide loading label
+        self.loading_label.grid_forget()
         if val == "Invalid YouTube URL":
             self.controller.show_frame(ThirdPage)
         else:
@@ -57,7 +54,6 @@ class ThirdPage(tk.Frame):
         
         self.controller = controller
 
-        # Centering the contents of the frame
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
         self.grid_columnconfigure(0, weight=1)
